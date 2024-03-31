@@ -522,7 +522,8 @@ func (h HTTPApi) GetSymbolsByExchV3(exchange string) (*SymbolsV3, error) {
 func (h HTTPApi) GetLastQuote(symbol string) (*Quote, error) {
 	m := NewQuote()
 	err := h.get(m, requestData{
-		action: feedAction,
+		version: APIv3,
+		action:  feedAction,
 		pathParams: joinWithSlashSeparator(
 			[]string{symbol, lastAction},
 		),
@@ -905,7 +906,7 @@ func (h HTTPApi) GetOrdersStream() (chan []byte, chan bool) {
 }
 
 // GetExecOrdersStream return the life quote stream
-//for the specified financial instruments
+// for the specified financial instruments
 func (h HTTPApi) GetExecOrdersStream() (chan []byte, chan bool) {
 	u := requestData{
 		category: TRADEAPICategory,
