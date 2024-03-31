@@ -798,25 +798,23 @@ func (h HTTPApi) GetOrderV2(orderID string) (*OrderV2, error) {
 
 // GetOrderV3 return the order with specified identifier
 func (h HTTPApi) GetOrderV3(orderID string) (*OrderV3, error) {
-	m := NewOrderV3()
-	err := h.get(m, requestData{
+	var m = NewOrderV3()
+	return m, h.get(m, requestData{
 		action:     ordersAction,
 		pathParams: orderID,
 		version:    APIv3,
 		category:   TRADEAPICategory,
 	})
-	return m, err
 }
 
 // GetActiveOrdersV1 return the list of active trading orders
 func (h HTTPApi) GetActiveOrdersV1() (*OrdersV1, error) {
-	m := NewOrdersV1()
-	err := h.get(m, requestData{
+	var m = NewOrdersV1()
+	return m, h.get(m, requestData{
 		action:   activeOrdersAction,
 		version:  APIv1,
 		category: TRADEAPICategory,
 	})
-	return m, err
 }
 
 // GetActiveOrdersV2 return the list of active trading orders

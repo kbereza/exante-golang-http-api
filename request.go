@@ -227,12 +227,13 @@ func (h HTTPApi) getVersion() string {
 	panic(errUndefinedAPIVersionMessage)
 }
 
-func (h HTTPApi) request(
-	method, url string, a IAuth, p *bytes.Reader) (*http.Response, error) {
+func (h HTTPApi) request(method, url string, a IAuth, p *bytes.Reader) (*http.Response, error) {
+
 	req, err := http.NewRequest(method, url, p)
 	if err != nil {
 		return nil, err
 	}
+
 	a.authenticate(req)
 	resp, err := h.httpClient.Do(req)
 	if err != nil {
@@ -247,7 +248,7 @@ func (h HTTPApi) buildURL(u requestData) string {
 		"%s/%s/%s/%s", h.baseAPIURL, u.getCategory(), varsion, u.action)
 
 	if len(u.pathParams) > 0 {
-		apiURL = fmt.Sprintf("%s/%s/", apiURL, u.pathParams)
+		apiURL = fmt.Sprintf("%s/%s", apiURL, u.pathParams)
 	}
 	if len(u.queryStringParams) > 0 {
 		qParams := url.Values{}
@@ -260,8 +261,7 @@ func (h HTTPApi) buildURL(u requestData) string {
 }
 
 func (h HTTPApi) get(m interface{}, u requestData) error {
-	err := h.fetch(http.MethodGet, m, u, emptyPostPayload)
-	return err
+	return h.fetch(http.MethodGet, m, u, emptyPostPayload)
 }
 
 func (h HTTPApi) post(m interface{}, u requestData) error {
@@ -269,8 +269,7 @@ func (h HTTPApi) post(m interface{}, u requestData) error {
 	if err != nil {
 		return err
 	}
-	err = h.fetch(http.MethodPost, m, u, objByte)
-	return err
+	return h.fetch(http.MethodPost, m, u, objByte)
 }
 
 func (h HTTPApi) preparePostPayload(m interface{}) (*bytes.Reader, error) {
@@ -278,8 +277,7 @@ func (h HTTPApi) preparePostPayload(m interface{}) (*bytes.Reader, error) {
 	if err != nil {
 		return nil, err
 	}
-	objByte := bytes.NewReader(o)
-	return objByte, err
+	return bytes.NewReader(o), nil
 }
 
 func (h HTTPApi) stream(u requestData, stopChan chan bool, outChan chan []byte) {
@@ -312,19 +310,18 @@ func (h HTTPApi) runStream(u requestData) (chan []byte, chan bool) {
 	return outChan, stopChan
 }
 
-func (h HTTPApi) fetch(
-	httpMethod string, m interface{}, u requestData, payload *bytes.Reader) error {
+func (h HTTPApi) fetch(httpMethod string, m interface{}, u requestData, payload *bytes.Reader) error {
 
 	resp, err := h.request(httpMethod, h.buildURL(u), h.getAuth(u), payload)
 	if err != nil {
 		return err
 	}
+
 	preparedData, err := h.processResponse(resp)
 	if err != nil {
 		return err
 	}
-	err = h.serialize(preparedData, m)
-	return err
+	return h.serialize(preparedData, m)
 }
 
 func (h HTTPApi) processResponse(resp *http.Response) ([]byte, error) {
