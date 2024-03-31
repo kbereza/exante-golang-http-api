@@ -1,5 +1,6 @@
 module github.com/xntltd/golang-http-api
 
-go 1.14
+go 1.22
 
-require github.com/dgrijalva/jwt-go v3.2.0+incompatible
+require github.com/golang-jwt/jwt/v5 v5.2.1
+
