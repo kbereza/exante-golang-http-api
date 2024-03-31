@@ -5,14 +5,13 @@ import (
 	"compress/gzip"
 	"encoding/json"
 	"fmt"
+	"github.com/golang-jwt/jwt/v5"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
-
-	"github.com/dgrijalva/jwt-go"
 )
 
 const (
@@ -72,7 +71,7 @@ func setReqHeader(r *http.Request, h, v string) { r.Header.Set(h, v) }
 // Standard jwt-go claims does not support multiple audience
 type claimsWithMultiAudSupport struct {
 	Aud []string `json:"aud"`
-	jwt.StandardClaims
+	jwt.MapClaims
 }
 
 type requestData struct {
@@ -197,11 +196,11 @@ func (j JWTAuthMethod) getJWTToken() string {
 
 	claims := claimsWithMultiAudSupport{
 		Scopes,
-		jwt.StandardClaims{
-			Issuer:    j.ClientID,
-			Subject:   j.ApplicationID,
-			IssuedAt:  jwtIssueAt,
-			ExpiresAt: jwtExpiresAt,
+		jwt.MapClaims{
+			"iss": j.ClientID,
+			"sub": j.ApplicationID,
+			"exp": jwtExpiresAt,
+			"iat": jwtIssueAt,
 		},
 	}
 
