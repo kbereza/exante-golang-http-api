@@ -1,4 +1,4 @@
-package httplib
+package exante
 
 // NewUserAccounts constructor
 func NewUserAccounts() *UserAccounts { return new(UserAccounts) }
