@@ -49,7 +49,9 @@ func NewSymbolSpecification() *SymbolSpecification { return new(SymbolSpecificat
 func NewGroups() *Groups { return new(Groups) }
 
 // NewQuote constructor
-func NewQuote() *Quote { return new(Quote) }
+func NewQuote() []*Quote { return []*Quote{} }
+
+func NewQuotes() []*Quote { return []*Quote{} }
 
 // NewOHLCTrades constructor
 func NewOHLCTrades() *OHLCTrades { return new(OHLCTrades) }
@@ -262,10 +264,23 @@ type Groups []Group
 
 // Quote model
 type Quote struct {
-	Timestamp int    `json:"timestamp"`
-	SymbolID  int    `json:"symbolId"`
-	Bid       string `json:"bid"`
-	Ask       string `json:"ask"`
+	Timestamp int               `json:"timestamp"`
+	SymbolID  int               `json:"symbolId"`
+	Bid       map[string]string `json:"bid"`
+	Ask       map[string]string `json:"ask"`
+}
+
+type QuoteV2 struct {
+	Ask []struct {
+		Price string `json:"price"`
+		Size  string `json:"size"`
+	} `json:"ask"`
+	Bid []struct {
+		Price string `json:"price"`
+		Size  string `json:"size"`
+	} `json:"bid"`
+	SymbolID  string `json:"symbolId"`
+	Timestamp int64  `json:"timestamp"`
 }
 
 // OHLCQuote model
@@ -429,7 +444,7 @@ type TransactionV1 struct {
 // TransactionsV1 model
 type TransactionsV1 []TransactionV1
 
-//TransactionV2 model
+// TransactionV2 model
 type TransactionV2 TransactionV1
 
 // TransactionsV2 model
