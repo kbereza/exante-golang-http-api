@@ -1445,9 +1445,7 @@ func TestHTTPApi_GetTransactionsV1(t *testing.T) {
 		version    string
 	}
 	type args struct {
-		symbol string
-		opType []string
-		p      GetTransactionsOptionalPayload
+		p GetTransactionsOptionalPayload
 	}
 	tests := []struct {
 		name    string
@@ -1466,7 +1464,7 @@ func TestHTTPApi_GetTransactionsV1(t *testing.T) {
 				baseAPIURL: tt.fields.baseAPIURL,
 				version:    tt.fields.version,
 			}
-			got, err := h.GetTransactionsV1(tt.args.symbol, tt.args.opType, tt.args.p)
+			got, err := h.GetTransactionsV1(tt.args.p)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("HTTPApi.GetTransactionsV1() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -1482,7 +1480,6 @@ func TestHTTPApi_GetTransactionsV2(t *testing.T) {
 	type apiInstance struct{ HTTPApi }
 	u := NewTransactionsV2()
 	type args struct {
-		symbol string
 		opType []string
 		p      GetTransactionsOptionalPayload
 	}
@@ -1493,12 +1490,14 @@ func TestHTTPApi_GetTransactionsV2(t *testing.T) {
 		want        *TransactionsV2
 		wantErr     bool
 	}{
-		{APIv2, apiInstance{fakeAPIv2}, args{symbol: "CBOE.CBOE.20X2020.P65",
-			opType: []string{"INTEREST"}, p: GetTransactionsOptionalPayload{}}, u, true},
+		{APIv2, apiInstance{fakeAPIv2}, args{p: GetTransactionsOptionalPayload{
+			Symbol:  "CBOE.CBOE.20X2020.P65",
+			OpTypes: []string{"INTEREST"},
+		}}, u, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := tt.apiInstance.GetTransactionsV2(tt.args.symbol, tt.args.opType, tt.args.p)
+			_, err := tt.apiInstance.GetTransactionsV2(tt.args.p)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("HTTPApi.GetTransactionsV2() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -1515,9 +1514,7 @@ func TestHTTPApi_GetTransactionsV3(t *testing.T) {
 		version    string
 	}
 	type args struct {
-		symbol string
-		opType []string
-		p      GetTransactionsOptionalPayload
+		p GetTransactionsOptionalPayload
 	}
 	tests := []struct {
 		name    string
@@ -1536,7 +1533,7 @@ func TestHTTPApi_GetTransactionsV3(t *testing.T) {
 				baseAPIURL: tt.fields.baseAPIURL,
 				version:    tt.fields.version,
 			}
-			got, err := h.GetTransactionsV3(tt.args.symbol, tt.args.opType, tt.args.p)
+			got, err := h.GetTransactionsV3(tt.args.p)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("HTTPApi.GetTransactionsV3() error = %v, wantErr %v", err, tt.wantErr)
 				return

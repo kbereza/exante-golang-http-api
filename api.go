@@ -84,7 +84,9 @@ func NewAPI(
 
 var emptyPostPayload = bytes.NewReader([]byte{})
 
-func intToString(value int) string                 { return strconv.Itoa(value) }
+func intToString(value int) string {
+	return strconv.Itoa(value)
+}
 func stringToUpperCase(value string) string        { return strings.ToUpper(value) }
 func boolToString(value bool) string               { return strconv.FormatBool(value) }
 func strungSliceToString(value []string) string    { return strings.Join(value, commaSeparator) }
@@ -682,8 +684,7 @@ func (h HTTPApi) GetTransactionsV1(p GetTransactionsOptionalPayload) (*Transacti
 }
 
 // GetTransactionsV2 return the list of transactions with the specified filter
-func (h HTTPApi) GetTransactionsV2(symbol string, opType []string,
-	p GetTransactionsOptionalPayload) (*TransactionsV2, error) {
+func (h HTTPApi) GetTransactionsV2(p GetTransactionsOptionalPayload) (*TransactionsV2, error) {
 
 	queryStringData := h.getTransactionsQueryString(p)
 	m := NewTransactionsV2()

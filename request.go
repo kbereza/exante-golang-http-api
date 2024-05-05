@@ -253,7 +253,13 @@ func (h HTTPApi) buildURL(u requestData) string {
 	if len(u.queryStringParams) > 0 {
 		qParams := url.Values{}
 		for k := range u.queryStringParams {
-			qParams.Add(k, u.queryStringParams[k])
+			value, ok := u.queryStringParams[k]
+			if !ok {
+				continue
+			}
+			if value != "0" && value != "" {
+				qParams.Add(k, value)
+			}
 		}
 		apiURL = apiURL + "?" + qParams.Encode()
 	}
@@ -343,6 +349,5 @@ func (h HTTPApi) processResponse(resp *http.Response) ([]byte, error) {
 }
 
 func (h HTTPApi) serialize(data []byte, model interface{}) (err error) {
-	err = json.Unmarshal(data, &model)
-	return
+	return json.Unmarshal(data, &model)
 }

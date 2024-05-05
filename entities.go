@@ -452,16 +452,18 @@ type TransactionsV2 []TransactionV2
 
 // TransactionV3 model
 type TransactionV3 struct {
-	OperationType string  `json:"operationType"`
-	ID            string  `json:"id"`
-	Asset         string  `json:"asset"`
-	SymbolID      string  `json:"symbolId"`
-	AccountID     string  `json:"accountId"`
-	Timestamp     int     `json:"timestamp"`
-	Sum           float64 `json:"sum"`
-	OrderID       string  `json:"orderId"`
-	OrderPos      int     `json:"orderPos"`
-	UUID          string  `json:"uuid"`
+	SymbolID      string `json:"symbolId"`
+	Timestamp     int    `json:"timestamp"`
+	UUID          string `json:"uuid"`
+	OrderPos      int    `json:"orderPos"`
+	AccountID     string `json:"accountId"`
+	ValueDate     string `json:"valueDate"`
+	ID            int    `json:"id"`
+	Sum           string `json:"sum"`
+	OrderID       string `json:"orderId"`
+	OperationType string `json:"operationType"`
+	ParentUuid    string `json:"parentUuid"`
+	Asset         string `json:"asset"`
 }
 
 // TransactionsV3 model
