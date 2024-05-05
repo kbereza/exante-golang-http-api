@@ -165,9 +165,10 @@ type GetActiveOrderPayload struct {
 // GetTransactionsOptionalPayload optional params
 // for GetTransactions endpoint function
 type GetTransactionsOptionalPayload struct {
-	OrderPos                             int
-	Account, UUID, Asset, OrderID, Order string
-	OffsetLimit                          OffsetLimitPayload
+	OrderPos                                     int
+	Symbol, Account, UUID, Asset, OrderID, Order string
+	OpTypes                                      []string
+	OffsetLimit                                  OffsetLimitPayload
 	DatetimeRangePayload
 }
 
@@ -648,17 +649,16 @@ func (h HTTPApi) GetAccountSummary(account, currency string,
 	return m, err
 }
 
-func (h HTTPApi) getTransactionsQueryString(symbol string, opType []string,
-	p GetTransactionsOptionalPayload) QueryStringParams {
+func (h HTTPApi) getTransactionsQueryString(p GetTransactionsOptionalPayload) QueryStringParams {
 
 	payload := QueryStringParams{
-		"symbolId":      symbol,
+		"symbolId":      p.Symbol,
 		"uuid":          p.UUID,
 		"accountId":     p.Account,
 		"asset":         p.Asset,
 		"order":         p.Order,
 		"orderId":       p.OrderID,
-		"operationType": strungSliceToString(opType),
+		"operationType": strungSliceToString(p.OpTypes),
 		"offset":        intToString(p.OffsetLimit.Offset),
 		"limit":         intToString(p.OffsetLimit.Limit),
 		"orderPos":      intToString(p.OrderPos),
@@ -669,10 +669,9 @@ func (h HTTPApi) getTransactionsQueryString(symbol string, opType []string,
 }
 
 // GetTransactionsV1 return the list of transactions with the specified filter
-func (h HTTPApi) GetTransactionsV1(symbol string, opType []string,
-	p GetTransactionsOptionalPayload) (*TransactionsV1, error) {
+func (h HTTPApi) GetTransactionsV1(p GetTransactionsOptionalPayload) (*TransactionsV1, error) {
 
-	queryStringData := h.getTransactionsQueryString(symbol, opType, p)
+	queryStringData := h.getTransactionsQueryString(p)
 	m := NewTransactionsV1()
 	err := h.get(m, requestData{
 		version:           APIv1,
@@ -686,7 +685,7 @@ func (h HTTPApi) GetTransactionsV1(symbol string, opType []string,
 func (h HTTPApi) GetTransactionsV2(symbol string, opType []string,
 	p GetTransactionsOptionalPayload) (*TransactionsV2, error) {
 
-	queryStringData := h.getTransactionsQueryString(symbol, opType, p)
+	queryStringData := h.getTransactionsQueryString(p)
 	m := NewTransactionsV2()
 	err := h.get(m, requestData{
 		version:           APIv2,
@@ -697,9 +696,8 @@ func (h HTTPApi) GetTransactionsV2(symbol string, opType []string,
 }
 
 // GetTransactionsV3 return the list of transactions with the specified filter
-func (h HTTPApi) GetTransactionsV3(symbol string, opType []string,
-	p GetTransactionsOptionalPayload) (*TransactionsV3, error) {
-	queryStringData := h.getTransactionsQueryString(symbol, opType, p)
+func (h HTTPApi) GetTransactionsV3(p GetTransactionsOptionalPayload) (*TransactionsV3, error) {
+	queryStringData := h.getTransactionsQueryString(p)
 	m := NewTransactionsV3()
 	err := h.get(m, requestData{
 		version:           APIv3,
