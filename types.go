@@ -7,8 +7,8 @@ func (t OperationType) String() string {
 }
 
 const (
-	OtTypeTrade      OperationType = "TRADE"
-	OtTypeFundWith   OperationType = "FUNDING/WITHDRAWAL"
-	OtTypeCommission OperationType = "COMMISSION"
-	OtTypeInterest   OperationType = "INTEREST"
+	OperationTypeTrade      OperationType = "TRADE"
+	OperationTypeFundWith   OperationType = "FUNDING/WITHDRAWAL"
+	OperationTypeCommission OperationType = "COMMISSION"
+	OperationTypeInterest   OperationType = "INTEREST"
 )
