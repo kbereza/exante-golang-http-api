@@ -452,18 +452,18 @@ type TransactionsV2 []TransactionV2
 
 // TransactionV3 model
 type TransactionV3 struct {
-	SymbolID      string `json:"symbolId"`
-	Timestamp     int    `json:"timestamp"`
-	UUID          string `json:"uuid"`
-	OrderPos      int    `json:"orderPos"`
-	AccountID     string `json:"accountId"`
-	ValueDate     string `json:"valueDate"`
-	ID            int    `json:"id"`
-	Sum           string `json:"sum"`
-	OrderID       string `json:"orderId"`
-	OperationType string `json:"operationType"`
-	ParentUuid    string `json:"parentUuid"`
-	Asset         string `json:"asset"`
+	SymbolID      string        `json:"symbolId"`
+	Timestamp     int           `json:"timestamp"`
+	UUID          string        `json:"uuid"`
+	OrderPos      int           `json:"orderPos"`
+	AccountID     string        `json:"accountId"`
+	ValueDate     string        `json:"valueDate"`
+	ID            int           `json:"id"`
+	Sum           string        `json:"sum"`
+	OrderID       string        `json:"orderId"`
+	OperationType OperationType `json:"operationType"`
+	ParentUuid    string        `json:"parentUuid"`
+	Asset         string        `json:"asset"`
 }
 
 // TransactionsV3 model
@@ -511,4 +511,11 @@ type OrderSentTypeV3 struct {
 	TakeProfit     string `json:"takeProfit,omitempty"`
 	StopLoss       string `json:"stopLoss,omitempty"`
 	SymbolID       string `json:"symbolId"`
+}
+
+func (t *TransactionV3) TradeIsBySymbol() bool {
+	if t.OperationType == OperationTypeTrade && t.Asset == t.SymbolID {
+		return true
+	}
+	return false
 }
