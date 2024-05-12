@@ -49,9 +49,7 @@ func NewSymbolSpecification() *SymbolSpecification { return new(SymbolSpecificat
 func NewGroups() *Groups { return new(Groups) }
 
 // NewQuote constructor
-func NewQuote() []*Quote { return []*Quote{} }
-
-func NewQuotes() []*Quote { return []*Quote{} }
+func NewQuote() *[]Quote { return &[]Quote{} }
 
 // NewOHLCTrades constructor
 func NewOHLCTrades() *OHLCTrades { return new(OHLCTrades) }
@@ -262,12 +260,24 @@ type Group struct {
 // Groups model
 type Groups []Group
 
+type (
+	Bid struct {
+		Price string `json:"price"`
+		Size  string `json:"size"`
+	}
+
+	Ask struct {
+		Price string `json:"price"`
+		Size  string `json:"size"`
+	}
+)
+
 // Quote model
 type Quote struct {
-	Timestamp int               `json:"timestamp"`
-	SymbolID  int               `json:"symbolId"`
-	Bid       map[string]string `json:"bid"`
-	Ask       map[string]string `json:"ask"`
+	Timestamp int64  `json:"timestamp"`
+	SymbolID  string `json:"symbolId"`
+	Bid       []Bid  `json:"bid"`
+	Ask       []Ask  `json:"ask"`
 }
 
 type QuoteV2 struct {

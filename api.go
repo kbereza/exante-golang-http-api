@@ -522,16 +522,16 @@ func (h HTTPApi) GetSymbolsByExchV3(exchange string) (*SymbolsV3, error) {
 }
 
 // GetLastQuote return the last quote for the specified financial instrument
-func (h HTTPApi) GetLastQuote(symbol string) (*Quote, error) {
+func (h HTTPApi) GetLastQuote(symbol string) (*[]Quote, error) {
 	m := NewQuote()
-	err := h.get(&m, requestData{
+	err := h.get(m, requestData{
 		version: APIv3,
 		action:  feedAction,
 		pathParams: joinWithSlashSeparator(
 			[]string{symbol, lastAction},
 		),
 	})
-	return &Quote{}, err
+	return m, err
 }
 
 // GetOHLCTrades return the list of OHLC candles

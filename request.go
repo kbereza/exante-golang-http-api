@@ -327,7 +327,7 @@ func (h HTTPApi) fetch(httpMethod string, m interface{}, u requestData, payload 
 	if err != nil {
 		return err
 	}
-	return h.serialize(preparedData, m)
+	return serialize(preparedData, m)
 }
 
 func (h HTTPApi) processResponse(resp *http.Response) ([]byte, error) {
@@ -348,6 +348,6 @@ func (h HTTPApi) processResponse(resp *http.Response) ([]byte, error) {
 	return responseBody, nil
 }
 
-func (h HTTPApi) serialize(data []byte, model interface{}) (err error) {
+func serialize(data []byte, model interface{}) (err error) {
 	return json.Unmarshal(data, &model)
 }

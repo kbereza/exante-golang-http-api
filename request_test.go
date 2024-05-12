@@ -38,3 +38,34 @@ func Test_libTransport_RoundTrip(t *testing.T) {
 		})
 	}
 }
+
+func Test_serialize(t *testing.T) {
+	type args struct {
+		data  []byte
+		model interface{}
+	}
+	tests := []struct {
+		name       string
+		args       args
+		wantQuotes *[]Quote
+		wantErr    bool
+	}{
+		{"#1", args{[]byte(`[{"ask":[{"price":"182.52","size":"6E+2"}],"bid":[{"price":"182.5","size":"1.6E+3"}],"symbolId":"AAPL.NASDAQ","timestamp":1715385592452}]`),
+			NewQuote()}, &[]Quote{
+			{Timestamp: 1715385592452, SymbolID: "AAPL.NASDAQ",
+				Ask: []Ask{{Price: "182.52", Size: "6E+2"}},
+				Bid: []Bid{{Price: "182.5", Size: "1.6E+3"}},
+			},
+		}, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := serialize(tt.args.data, &tt.args.model); (err != nil) != tt.wantErr {
+				t.Errorf("serialize() error = %v, wantErr %v", err, tt.wantErr)
+			}
+			if !reflect.DeepEqual(tt.args.model, tt.wantQuotes) {
+				t.Errorf("equal() = %v, want %v", tt.args.model, tt.wantQuotes)
+			}
+		})
+	}
+}
