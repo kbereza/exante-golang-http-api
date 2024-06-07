@@ -9,6 +9,7 @@ func (t OperationType) String() string {
 const (
 	OperationTypeTrade      OperationType = "TRADE"
 	OperationTypeFundWith   OperationType = "FUNDING/WITHDRAWAL"
+	OperationTypeDividends  OperationType = "DIVIDEND"
 	OperationTypeCommission OperationType = "COMMISSION"
 	OperationTypeInterest   OperationType = "INTEREST"
 )
