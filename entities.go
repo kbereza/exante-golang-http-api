@@ -201,18 +201,31 @@ type SymbolsV2 []SymbolV2
 
 // SymbolV3 model
 type SymbolV3 struct {
-	SymbolOptionDataV3 `json:"optionData"`
-	Name               string  `json:"name"`
-	Description        string  `json:"description"`
-	Country            string  `json:"country"`
-	Exchange           string  `json:"exchange"`
-	MinPriceIncrement  string  `json:"minPriceIncrement"`
-	Currency           string  `json:"currency"`
-	SymbolType         string  `json:"symbolType"`
-	Ticker             string  `json:"ticker"`
-	Expiration         float64 `json:"expiration"`
-	Group              string  `json:"group"`
-	UnderlyingID       string  `json:"underlyingSymbolId`
+	SymbolID          string             `json:"symbol_id"`
+	Ticker            string             `json:"ticker"`
+	Name              string             `json:"name"`
+	Description       string             `json:"description"`
+	Group             string             `json:"group"`
+	UnderlyingID      string             `json:"underlyingSymbolId"`
+	Exchange          string             `json:"exchange"`
+	Expiration        float64            `json:"expiration"`
+	Country           string             `json:"country"`
+	SymbolType        string             `json:"symbolType"`
+	MinPriceIncrement string             `json:"minPriceIncrement"`
+	OptionData        SymbolOptionDataV3 `json:"optionData"`
+	Currency          string             `json:"currency"`
+	Identifiers       identifiers        `json:"identifiers"`
+	Icon              string             `json:"icon"`
+}
+
+type identifiers struct {
+	ISIN       string `json:"ISIN"`
+	FIGI       string `json:"FIGI"`
+	CUSIP      string `json:"CUSIP"`
+	RIC        string `json:"RIC"`
+	SEDOL      string `json:"SEDOL"`
+	CFI        string `json:"CFI"`
+	AssetClass string `json:"assetClass"`
 }
 
 // SymbolsV3 model
