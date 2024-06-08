@@ -201,7 +201,7 @@ type SymbolsV2 []SymbolV2
 
 // SymbolV3 model
 type SymbolV3 struct {
-	SymbolID          string             `json:"symbol_id"`
+	SymbolID          string             `json:"symbolId"`
 	Ticker            string             `json:"ticker"`
 	Name              string             `json:"name"`
 	Description       string             `json:"description"`
